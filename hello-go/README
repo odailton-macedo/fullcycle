@@ -1,0 +1,15 @@
+Desafio Hello-Go
+
+Imagem Docker criada em Multistage Building em dois estágios:
+
+Stage - 1: Compila o programa "hello.go" escrito em Golang utilizando a imagem "golang"
+
+Stage - 2: Copia os artefatos do estágio anterior para a imagem final baseada na imagem "hello-world"
+
+Ao rodar o container o programa "hello-go" é  executado e exibe a mensagem "Full Cycle Rocks!!" no terminal e finaliza.
+
+# DOCKER HUB
+https://hub.docker.com/r/odailton/hello-go
+
+# Para rodar
+docker run --rm odailton/hello-go
