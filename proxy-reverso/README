@@ -40,16 +40,21 @@
 # banco de dados "nodedb" do MySQL e em seguida o conteúdo desta tabela é 
 # listado e devolvido em formato html estilizado.
 #
-#
+###############################################################################
 #
 # USO:
 #
-# Subir o Docker Compose
+# Descompactar o arquivo do banco de dados no diretório da aplicação:
+unzip mysql.zip
+#
+#
+# Subir o Docker Compose:
 docker compose up -d
 #
-# Acessar no browser
+#
+# Acessar no browser (cada vez que a aplicação é carregada um novo registro será inserido):
 http://localhost:8080
-# Cada vez que a aplicação é carregada um novo registro é inserido.
+# 
 #
 # Descer a aplicação
 docker compose down
