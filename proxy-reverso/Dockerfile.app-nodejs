@@ -1,0 +1,17 @@
+FROM alpine
+
+WORKDIR /usr/src/app
+
+RUN apk add nodejs npm
+
+RUN npm install express mysql
+
+RUN apk del npm
+
+COPY hello* .
+
+COPY proxy-reverso.js .
+
+RUN ls . && sleep 3
+
+CMD [ "node", "proxy-reverso.js" ]
