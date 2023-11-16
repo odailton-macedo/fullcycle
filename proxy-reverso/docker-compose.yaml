@@ -8,12 +8,15 @@ services:
       dockerfile: Dockerfile.app-nodejs      
     image: app-nodejs
     container_name: app-nodejs
-    entrypoint: dockerize -wait tcp://mysql:3306 -timeout 30s node proxy-reverso.js
+    restart: always
     tty: true
     volumes:
-      - .:/usr/src/app
+      # Volume mapeado para link simbólico para evitar 
+      # sobrescrever o conteúdo do diretório na montagem
+      - ./:/usr/src/app-nodejs
     depends_on:
       - mysql
+    entrypoint: dockerize -wait tcp://mysql:3306 -timeout 30s ./entrypoint.sh
     networks:
       - my_network
     ports:
@@ -36,21 +39,21 @@ services:
 
 
   mysql:
-      image: mysql:5.7
-      container_name: mysql
-      command: --innodb-use-native-aio=0
-      restart: always
-      tty: true
-      environment:
-        - MYSQL_DATABASE=nodedb
-        - MYSQL_ROOT_PASSWORD=root
-        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      volumes:
-        - ./mysql/db:/var/lib/mysql
-      networks:
-        - my_network
-      ports:
-        - 3306:3306
+    image: mysql:5.7
+    container_name: mysql
+    command: --innodb-use-native-aio=0
+    restart: always
+    tty: true
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ./mysql/db:/var/lib/mysql
+    networks:
+      - my_network
+    ports:
+      - 3306:3306
 
 
 networks:

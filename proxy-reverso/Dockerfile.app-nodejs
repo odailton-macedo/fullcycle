@@ -1,6 +1,6 @@
 FROM alpine
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/node
 
 ENV DOCKERIZE_VERSION v0.7.0
 
@@ -11,14 +11,22 @@ RUN apk update --no-cache \
 
 RUN apk add nodejs npm
 
-RUN npm install express mysql2
+RUN npm install express 
 
-RUN apk del npm
+RUN npm install mysql2
+
+RUN export NODE_PATH=/usr/src/node/node_modules
+
+WORKDIR /usr/src/app
+
+# Link simbólico para utilizar no mapeamento do volume para 
+# evitar sobrescrever o conteúdo do diretório na montagem
+RUN ln -s /usr/src/app /usr/src/app-nodejs
 
 COPY hello* .
 
 COPY proxy-reverso.js .
 
-RUN ls . && sleep 3
+COPY entrypoint.sh .
 
-CMD [ "node", "proxy-reverso.js" ]
+RUN ls . && sleep 3
